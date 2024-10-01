@@ -1,20 +1,20 @@
 openapi: 3.0.0
 info:
-  title: API Documentation
+  title: Dokumentasi API
   version: "1.0"
-  description: API Documentation
+  description: Dokumentasi API
 
 servers:
   - url: https://example-backend.com/api
-    description: Production server
+    description: Server Produksi
 
 paths:
   /register:
     post:
-      summary: Register new user
-      description: Register a new user with username and password
+      summary: Daftar pengguna baru
+      description: Mendaftarkan pengguna baru dengan username dan password
       tags:
-        - Authentication
+        - Autentikasi
       requestBody:
         required: true
         content:
@@ -30,7 +30,7 @@ paths:
                   type: string
       responses:
         "200":
-          description: Successfully registered
+          description: Pendaftaran berhasil
           content:
             application/json:
               schema:
@@ -40,10 +40,10 @@ paths:
                     type: string
   /login:
     post:
-      summary: User Login
-      description: Login user with username and password
+      summary: Login pengguna
+      description: Mengautentikasi pengguna dengan username dan password
       tags:
-        - Authentication
+        - Autentikasi
       requestBody:
         required: true
         content:
@@ -57,7 +57,7 @@ paths:
                   type: string
       responses:
         "200":
-          description: Login successful
+          description: Login berhasil
           content:
             application/json:
               schema:
@@ -65,3 +65,158 @@ paths:
                 properties:
                   token:
                     type: string
+
+  # Operasi CRUD untuk berita
+  /berita:
+    post:
+      summary: Buat artikel berita baru
+      description: Membuat artikel berita baru
+      tags:
+        - Berita
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                judul:
+                  type: string
+                konten:
+                  type: string
+                penulis:
+                  type: string
+                tanggalDiterbitkan:
+                  type: string
+                  format: date-time
+      responses:
+        "201":
+          description: Artikel berita berhasil dibuat
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Artikel berita berhasil dibuat
+
+    get:
+      summary: Dapatkan daftar artikel berita
+      description: Mengambil daftar semua artikel berita
+      tags:
+        - Berita
+      responses:
+        "200":
+          description: Daftar artikel berita berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    judul:
+                      type: string
+                    penulis:
+                      type: string
+                    tanggalDiterbitkan:
+                      type: string
+                      format: date-time
+
+  /berita/{beritaId}:
+    get:
+      summary: Dapatkan artikel berita berdasarkan ID
+      description: Mengambil artikel berita tunggal berdasarkan ID-nya
+      tags:
+        - Berita
+      parameters:
+        - name: beritaId
+          in: path
+          required: true
+          description: ID artikel berita yang akan diambil
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Artikel berita berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  judul:
+                    type: string
+                  konten:
+                    type: string
+                  penulis:
+                    type: string
+                  tanggalDiterbitkan:
+                    type: string
+                    format: date-time
+        "404":
+          description: Artikel berita tidak ditemukan
+
+    put:
+      summary: Perbarui artikel berita berdasarkan ID
+      description: Memperbarui informasi artikel berita
+      tags:
+        - Berita
+      parameters:
+        - name: beritaId
+          in: path
+          required: true
+          description: ID artikel berita yang akan diperbarui
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                judul:
+                  type: string
+                konten:
+                  type: string
+                penulis:
+                  type: string
+                tanggalDiterbitkan:
+                  type: string
+                  format: date-time
+      responses:
+        "200":
+          description: Artikel berita berhasil diperbarui
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Artikel berita berhasil diperbarui
+        "404":
+          description: Artikel berita tidak ditemukan
+
+    delete:
+      summary: Hapus artikel berita berdasarkan ID
+      description: Menghapus artikel berita berdasarkan ID
+      tags:
+        - Berita
+      parameters:
+        - name: beritaId
+          in: path
+          required: true
+          description: ID artikel berita yang akan dihapus
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Artikel berita berhasil dihapus
+        "404":
+          description: Artikel berita tidak ditemukan
