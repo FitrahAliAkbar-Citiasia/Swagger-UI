@@ -1,0 +1,67 @@
+openapi: 3.0.0
+info:
+  title: API Documentation
+  version: "1.0"
+  description: API documentation for authentication services (SSO)
+
+servers:
+  - url: https://example-backend.com/api
+    description: Production server
+
+paths:
+  /register:
+    post:
+      summary: Register new user
+      description: Register a new user with username and password
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                email:
+                  type: string
+      responses:
+        "200":
+          description: Successfully registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /login:
+    post:
+      summary: User Login
+      description: Login user with username and password
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
